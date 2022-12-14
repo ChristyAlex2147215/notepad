@@ -8,17 +8,23 @@ const NotesListPage = () => {
     let [notes, setNotes] = useState([])
 
     useEffect(() => {
-        let getNotes = async () => {
-
-            let response = await fetch('/api/notes/')
-            let data = await response.json()
-            setNotes(data)
-        }
         getNotes()
     }, [])
 
 
-   
+    let getNotes = async () => {
+
+        let response = await fetch('/api/notes/').then((response) => response.json())
+        .then((data) => {
+          console.log('Success:', data);
+          setNotes(data)
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+        // let data = await response.json()
+        // setNotes(data)
+    }
 
     return (
         <div className="notes">

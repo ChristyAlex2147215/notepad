@@ -6,12 +6,14 @@ from .serializers import NoteSerializer
 def getNotesList(request):
     notes = Note.objects.all().order_by('-updated')
     serializer = NoteSerializer(notes, many=True)
+    print("DJango-notes:",serializer.data)
     return Response(serializer.data)
 
 
 def getNoteDetail(request, pk):
     notes = Note.objects.get(id=pk)
     serializer = NoteSerializer(notes, many=False)
+    print("DJango-notes:",serializer.data)
     return Response(serializer.data)
 
 

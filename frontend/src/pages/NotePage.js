@@ -1,22 +1,31 @@
 import React, { useState, useEffect } from 'react'
 import { ReactComponent as ArrowLeft } from '../assets/arrow-left.svg'
-import { Link } from 'react-router-dom'
+import { useParams,useNavigate } from 'react-router-dom'
 
-const NotePage = ({ match, history }) => {
-
-    let noteId = match.params.id
+const NotePage = () => {
+    let noteId =useParams().id
+    console.log("Note id captured:",noteId)
+    const history = useNavigate();
     let [note, setNote] = useState(null)
 
     useEffect(() => {
-        let getNote = async () => {
-            if (noteId === 'new') return
-    
-            let response = await fetch(`/api/notes/${noteId}/`)
-            let data = await response.json()
-            setNote(data)
-        }
         getNote()
     }, [noteId])
+
+
+    let getNote = async () => {
+        if (noteId === 'new') return
+        let response = await fetch(`/api/notes/${noteId}/`).then((response) => response.json())
+        .then((data) => {
+          console.log('Success:', data);
+          setNote(data)
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+        // let data = await response.json()
+        // setNote(data)
+    }
 
 
     
@@ -28,7 +37,7 @@ const NotePage = ({ match, history }) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(note)
-        })
+        }).then(e=>console.log(e))
     }
 
 
@@ -39,7 +48,7 @@ const NotePage = ({ match, history }) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(note)
-        })
+        }).then(e=>console.log(e))
     }
 
 
@@ -49,9 +58,9 @@ const NotePage = ({ match, history }) => {
             'headers': {
                 'Content-Type': 'application/json'
             }
-        })
+        }).then(e=>console.log(e))
         
-        history.push('/')
+        history('/')
     }
 
     let handleSubmit = () => {
@@ -63,7 +72,7 @@ const NotePage = ({ match, history }) => {
         } else if (noteId === 'new' && note.body !== null) {
             createNote()
         }
-        history.push('/')
+        history('/')
     }
 
     let handleChange = (value) => {

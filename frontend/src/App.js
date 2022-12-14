@@ -15,17 +15,17 @@ import NotePage from './pages/NotePage'
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="container light">
-        <div className="app">
-          <Header />
-          <Routes>
-          <Route path="/" exact element={<NotesListPage/>}></Route>
-          <Route path="/note/:id" element={<NotePage/>}></Route>
-          </Routes>
-        </div>
+    <HashRouter>
+    <div className="container light">
+      <div className="app">
+      <Header />
+        <Routes>
+        <Route path="/" exact element={<NotesListPage/>} />
+        <Route path="/note/:id" element={<NotePage/>} />
+        </Routes>
       </div>
-    </BrowserRouter>
+    </div>
+  </HashRouter>
   );
 }
 
